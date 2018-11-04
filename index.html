@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Trivia Time</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#start[type='button']").click(function () {    //starts the timer
+
+                $("#quiz").css("display", "block");
+                $("#start").css("display", "none");
+                $("#timer").css("display", "inline");
+
+                var timeleft = 45;
+                var downloadTimer = setInterval(function () {
+                    timeleft--;
+                    $("#timer").html("Time Left: " + timeleft + " seconds"); //displays timer
+                    if (timeleft <= 0) {
+                        checkUnanswered();
+                        giveFinalStats();
+                        clearInterval(downloadTimer);
+                    }
+                }, 1000);
+
+            })
+            var timer = null;
+            var correctAnswers = 0;
+            var wrongAnswers = 0;
+            var unansweredAnswers = 0;
+
+            function checkUnanswered() {
+                if ($("#question1").prop("checked", false)) {
+                    unansweredAnswers++
+                };
+                if ($("#question2").prop("checked", false)) {
+                    unansweredAnswers++
+                };
+                if ($("#question3").prop("checked", false)) {
+                    unansweredAnswers++
+                };
+                if ($("#question4").prop("checked", false)) {
+                    unansweredAnswers++
+                };
+            }
+
+
+            var checkAnswers = $("#submit[type='button']").click(function () {  //checks answers and then calls function to give final stats
+                var question1 = $("input[name='question1']:checked").val();
+                var question2 = $("input[name='question2']:checked").val();
+                var question3 = $("input[name='question3']:checked").val();
+                var question4 = $("input[name='question4']:checked").val();
+
+                console.log(question1);
+
+                if (question1 === "c") { //c=jay
+                    correctAnswers++;
+                }
+                else if (question1 === "a" || question1 === "b" || question1 === "d") {
+                    wrongAnswers++;
+                }
+                else {
+                    unansweredAnswers++;
+                }
+
+                if (question2 === "c") { //c=maggie
+                    correctAnswers++;
+                }
+                else if (question2 === "a" || question2 === "b" || question2 === "d") {
+                    wrongAnswers++;
+                }
+                else {
+                    unansweredAnswers++;
+                }
+
+                if (question3 === "a") { //a=auto
+                    correctAnswers++;
+                }
+                else if (question3 === "b" || question3 === "c" || question3 === "d") {
+                    wrongAnswers++;
+                }
+                else {
+                    unansweredAnswers++;
+                }
+
+
+                if (question4 === "b") { //b=krusty's kough syrup
+                    correctAnswers++;
+                }
+                else if (question4 === "a" || question4 === "c" || question4 === "d") {
+                    wrongAnswers++;
+                }
+                else {
+                    unansweredAnswers++;
+                }
+
+                giveFinalStats();
+
+            });
+
+            function giveFinalStats() {
+                $("#quiz").css("display", "none");
+                $("#timer").css("display", "none");
+                $("#stats").css("display", "block");
+                $("#correct").html("Correct Answers: " + correctAnswers);
+                $("#wrong").html("Wrong Answers: " + wrongAnswers);
+                $("#unanswered").html("Unanswered: " + unansweredAnswers);
+                $('input[type="radio"]').prop('checked', false);
+            }
+        });
+
+    </script>
+    <!--  not sure why external css sheet wasn't working -->
+    <style>
+        body {
+  background-image: url("assets/images/Simpsons_Clouds.jpg");
+}
+
+    .container{
+        position: relative;
+    }   
+
+    #quiz{
+        display:none;
+        border-width: 5px;
+        border-color: black;
+        background-color: bisque;
+        width: 960px;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        margin-left: 0 auto ;
+        margin-right: 0 auto ;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+
+    }
+    #start{
+        display:inline;
+        width: 960px;
+        margin-left: 0 auto ;
+        margin-right: 0 auto ;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+
+    }
+    #timer{
+        display:none;
+        position: relative;        
+        width: 960px;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        margin-left: 0 auto ;
+        margin-right: 0 auto ;
+        margin-top: 20px;
+        text-align: center;
+       
+        
+    }
+    #stats{
+        display: none;
+        border-width: 5px;
+        border-color: black;
+        background-color: bisque;
+        width: 960px;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        margin-left: 0 auto ;
+        margin-right: 0 auto ;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        
+    }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-custom-control custom-radio custom-control-inline">
+                <form id="quiz">
+                    <h4>What is Homer J. Simpson's Middle Name?</h4>
+                    <p>
+                        <label><input type="radio" name="question1" value="a">Jeffrey</label>
+                        <label><input type="radio" name="question1" value="b">Joseph</label>
+                        <label><input type="radio" name="question1" value="c">Jay</label>
+                        <label><input type="radio" name="question1" value="d">John</label>
+                    </p>
+                    <h4>Who shot Mr. Burns?</h4>
+                    <p>
+                        <label><input type="radio" name="question2" value="a">Homer</label>
+                        <label><input type="radio" name="question2" value="b">Smithers</label>
+                        <label><input type="radio" name="question2" value="c">Maggie</label>
+                        <label><input type="radio" name="question2" value="d">Krusty the Clown</label>
+                    </p>
+                    <h4>Who drives the school bus?</h4>
+                    <p>
+                        <label><input type="radio" name="question3" value="a">Otto</label>
+                        <label><input type="radio" name="question3" value="b">Grandpa</label>
+                        <label><input type="radio" name="question3" value="c">Marge</label>
+                        <label><input type="radio" name="question3" value="d">Barney</label>
+                    </p>
+                    <h4>What's the secret ingredient in a Flaming Moe?</h4>
+                    <p>
+                        <label><input type="radio" name="question4" value="a">Squishie</label>
+                        <label><input type="radio" name="question4" value="b">Krusty's Cough Syrup</label>
+                        <label><input type="radio" name="question4" value="c">Nuclear Waste</label>
+                        <label><input type="radio" name="question4" value="d">Duff Beer</label>
+                    </p>
+                    <p><input type="button" value="Check Answers" id="submit" class="btn btn-primary btn-lg"></p>
+                </form>
+
+            </div>
+
+        </div>
+
+        <p><input type="button" id="start" value="Let's Play Some Simpson's Trivia!" class="btn btn-primary btn-lg"></p>
+        <div>
+
+            <div id="stats">
+                <h2>Here's your score...</h2><br><br>
+
+                <h2><span id="correct"></span></h2>
+                <h2><span id="wrong"></span></h2>
+                <h2><span id="unanswered"></span></h2>
+            </div>
+
+            <div id="countdowntimer">
+                <h2><span id="timer"></span></h2>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
